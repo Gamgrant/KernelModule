@@ -15,4 +15,12 @@ dmesg | tail
 ===============================================================
 # remove module v
 sudo rmmod hello_module
-
+===============================================================
+####### not so relevant for now
+#Generate a Signing Key:
+openssl req -new -x509 -newkey rsa:2048 -keyout MOK.priv -outform DER -out MOK.der -nodes -days 36500 -subj "/CN=Grant Key/"
+Sign the Module:
+/usr/src/kernels/$(uname -r)/scripts/sign-file sha256 ./MOK.priv ./MOK.der hello_module.ko
+Enroll the Key: Use mokutil to enroll the key:
+sudo mokutil --import MOK.der
+===============================================================
