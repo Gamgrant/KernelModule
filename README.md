@@ -1,14 +1,15 @@
-# KernelModule
-Kernel Version: 6.1.115-126.197
-Architecture: x86_64
-Linux version: Amazon Linux 2023.6.20241111
-cwd: /home/ec2-user/Grant/KernelModule
-===============================================================
+# KernelModule  
+
+Kernel Version: 6.1.115-126.197  
+Architecture: x86_64  
+Linux version: Amazon Linux 2023.6.20241111  
+cwd: /home/ec2-user/Grant/KernelModule  
+
 # Step 0: Set up
+```bash
 sudo yum groupinstall "Development Tools" -y
 sudo yum install cmake -y
-
-===============================================================
+```
 # Step 1: Loading the kernle in module (not wasm3)
 Kernel release version
 ```bash
@@ -46,7 +47,6 @@ Enroll the Key: Use mokutil to enroll the key:
 sudo mokutil --import MOK.der
 ```
 
-===============================================================
 # Step 2: Run wasm3 code in wasm3 runtime (no kernel involved) 
 ```bash
 git clone https://github.com/wasm3/wasm3.git
@@ -89,5 +89,5 @@ run wasm3
 ```bash
 ./just_wasm/wasm3_runner
 ```
-===============================================================
+
 # Step 3: Run Wasm3 inside the kernel 
