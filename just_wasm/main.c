@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <sys/stat.h>
 
-// Function to read the WASM file
+// this is the function to read the WASM file
 unsigned char* read_wasm_file(const char* filename, unsigned int* size) {
     FILE* file = fopen(filename, "rb");
     if (!file) {
@@ -36,12 +36,12 @@ m3ApiRawFunction(m3_wasm_printer) {
 int main() {
     M3Result result = m3Err_none;
     
-    // Create environment and runtime
+    // inside main() we need to create environment and runtime 
     M3Environment* env = m3_NewEnvironment();
     M3Runtime* runtime = m3_NewRuntime(env, 64*1024, NULL);
     M3Module* module = NULL;
     
-    // Load WASM module
+    // load WASM module here
     unsigned char* wasm_bytes = NULL;
     unsigned int wasm_size = 0;
     
@@ -65,7 +65,7 @@ int main() {
         return 1;
     }
     
-    // Link the print function
+    // Link the print function here
     result = m3_LinkRawFunction(module, "env", "m3_print", "v(*)", &m3_wasm_printer);
     if (result) {
         printf("LinkFunction error: %s\n", result);
@@ -73,7 +73,7 @@ int main() {
         return 1;
     }
     
-    // Find and call the run function
+    // IM3Function will help us find and call the run function 
     IM3Function f;
     result = m3_FindFunction(&f, runtime, "run");
     if (result) {
