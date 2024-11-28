@@ -1,0 +1,6 @@
+[submodule "emsdk"]
+	path = emsdk
+	url = https://github.com/emscripten-core/emsdk.git
+[submodule "wasm3"]
+	path = wasm3
+	url = https://github.com/wasm3/wasm3.git
