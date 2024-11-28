@@ -4,39 +4,36 @@ Architecture: x86_64
 Linux version: Amazon Linux 2023.6.20241111
 cwd: /home/ec2-user/Grant/KernelModule
 ===============================================================
-Step 0: Set up
+# Step 0: Set up
 sudo yum groupinstall "Development Tools" -y
 sudo yum install cmake -y
 
 ===============================================================
-Step 1: Loading the kernle in module (not wasm3)
-# kernel release version
+# Step 1: Loading the kernle in module (not wasm3)
+Kernel release version
 ```bash
 uname -r
 ```
-# to load the kerel module into the kernel
+To load the kerel module into the kernel
 ```bash
 sudo insmod hello_module.ko
 ```
-# check kernel logs to see printk message was logges
+Check kernel logs to see printk message was logges
 ```bash
 sudo dmesg | tail
 ```
-#Grant your user permission to view logs without sudo:
+Grant your user permission to view logs without sudo:
 ```bash
 sudo usermod -aG adm ec2-user
-```
-# now
-```bash
 dmesg | tail
 ```
-# remove module v
+Remove module v
 ```bash
 sudo rmmod hello_module
 sudo dmesg | tail
 ```
-####### not so relevant for now
-#Generate a Signing Key:
+Not so relevant for now:
+Generate a Signing Key:
 ```bash
 openssl req -new -x509 -newkey rsa:2048 -keyout MOK.priv -outform DER -out MOK.der -nodes -days 36500 -subj "/CN=Grant Key/"
 ```
@@ -50,7 +47,7 @@ sudo mokutil --import MOK.der
 ```
 
 ===============================================================
-Step 2: Run wasm3 code in wasm3 runtime (no kernel involved) 
+# Step 2: Run wasm3 code in wasm3 runtime (no kernel involved) 
 ```bash
 git clone https://github.com/wasm3/wasm3.git
 ```
@@ -75,8 +72,7 @@ emcc just_wasm/hello_wasm.c \
     -o just_wasm/hello_wasm.wasm
 ```
 Build wasm executable 
-
-# If you haven't already cloned wasm3, do it first
+If you haven't already cloned wasm3, do it first
 ```bash
 cd wasm3
 mkdir build
@@ -94,4 +90,4 @@ run wasm3
 ./just_wasm/wasm3_runner
 ```
 ===============================================================
-Step 3: Run Wasm3 inside the kernel 
+# Step 3: Run Wasm3 inside the kernel 
