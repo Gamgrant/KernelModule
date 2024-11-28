@@ -9,43 +9,51 @@ cwd: /home/ec2-user/Grant/KernelModule
 ```bash
 sudo yum groupinstall "Development Tools" -y
 sudo yum install cmake -y
+mkdir just_wasm
+mkdir just_kernel
+mkdir combined_wasm_kernel
 ```
+In just_wasm create main.c and hello_wasm.c 
+In just_kernel create hello_module.c and Makefile
+
 # Step 1: Loading the kernle in module (not wasm3)
-Kernel release version
+make
 ```bash
-uname -r
+make -C just_kernel
 ```
+
 To load the kerel module into the kernel
 ```bash
-sudo insmod hello_module.ko
+sudo insmod just_kernel/hello_module.ko
 ```
 Check kernel logs to see printk message was logges
 ```bash
 sudo dmesg | tail
-```
-Grant your user permission to view logs without sudo:
-```bash
-sudo usermod -aG adm ec2-user
-dmesg | tail
 ```
 Remove module v
 ```bash
 sudo rmmod hello_module
 sudo dmesg | tail
 ```
-Not so relevant for now:
+<!-- Not so relevant for now:
+Grant your user permission to view logs without sudo:
+```bash
+sudo usermod -aG adm ec2-user
+dmesg | tail
+```
+
 Generate a Signing Key:
 ```bash
 openssl req -new -x509 -newkey rsa:2048 -keyout MOK.priv -outform DER -out MOK.der -nodes -days 36500 -subj "/CN=Grant Key/"
 ```
 Sign the Module:
 ```bash
-/usr/src/kernels/$(uname -r)/scripts/sign-file sha256 ./MOK.priv ./MOK.der hello_module.ko
+/usr/src/kernels/$(uname -r)/scripts/sign-file sha256 ./MOK.priv ./MOK.der just_kernel/hello_module.ko
 ```
 Enroll the Key: Use mokutil to enroll the key:
 ```bash
 sudo mokutil --import MOK.der
-```
+``` -->
 
 # Step 2: Run wasm3 code in wasm3 runtime (no kernel involved) 
 ```bash
@@ -91,3 +99,11 @@ run wasm3
 ```
 
 # Step 3: Run Wasm3 inside the kernel 
+Convert WASM binary to C header file
+add definitions ...
+```bash
+xxd -i just_wasm/hello_wasm.wasm > combined_wasm_kernel/include/wasm_binary.h
+```
+Create kernel_wasm3.c and Makefile 
+see directory combined_wasm_kernel
+

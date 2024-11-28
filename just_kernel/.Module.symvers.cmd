@@ -1,1 +1,1 @@
-cmd_/home/ec2-user/Grant/KernelModule/Module.symvers :=  sed 's/ko$$/o/'  /home/ec2-user/Grant/KernelModule/modules.order | scripts/mod/modpost -m -a     -o /home/ec2-user/Grant/KernelModule/Module.symvers -e -i Module.symvers -T - 
+cmd_/home/ec2-user/Grant/KernelModule/just_kernel/Module.symvers :=  sed 's/ko$$/o/'  /home/ec2-user/Grant/KernelModule/just_kernel/modules.order | scripts/mod/modpost -m -a     -o /home/ec2-user/Grant/KernelModule/just_kernel/Module.symvers -e -i Module.symvers -T - 

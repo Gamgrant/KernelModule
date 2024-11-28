@@ -1,1 +1,1 @@
-/home/ec2-user/Grant/KernelModule/hello_module.o
+/home/ec2-user/Grant/KernelModule/just_kernel/hello_module.o
