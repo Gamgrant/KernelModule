@@ -1,0 +1,10 @@
+/home/ec2-user/Grant/KernelModule/combined_wasm_kernel/src/kernel_wasm3_main.o
+/home/ec2-user/Grant/KernelModule/combined_wasm_kernel/src/m3_core.o
+/home/ec2-user/Grant/KernelModule/combined_wasm_kernel/src/m3_env.o
+/home/ec2-user/Grant/KernelModule/combined_wasm_kernel/src/m3_compile.o
+/home/ec2-user/Grant/KernelModule/combined_wasm_kernel/src/m3_exec.o
+/home/ec2-user/Grant/KernelModule/combined_wasm_kernel/src/m3_parse.o
+/home/ec2-user/Grant/KernelModule/combined_wasm_kernel/src/m3_module.o
+/home/ec2-user/Grant/KernelModule/combined_wasm_kernel/src/m3_function.o
+/home/ec2-user/Grant/KernelModule/combined_wasm_kernel/src/m3_code.o
+/home/ec2-user/Grant/KernelModule/combined_wasm_kernel/src/m3_info.o
