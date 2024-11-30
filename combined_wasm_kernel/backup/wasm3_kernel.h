@@ -3,9 +3,9 @@
 
 //---------------------------------------------------------------
 // Prevent Inclusion of Standard Headers
+// Define macros to prevent standard headers from being included
 //---------------------------------------------------------------
 
-// Define macros to prevent standard headers from being included
 #define _STDIO_H
 #define _STDLIB_H
 #define _STDINT_H
@@ -16,26 +16,25 @@
 #define _ASSERT_H
 #define _MATH_H
 #define _ERRNO_H
-#define _STDDEF_H      // Add this to prevent inclusion of <stddef.h>
-#define __STDDEF_H     // Common guard used in stddef.h
-#define _STDDEF_H_     // Another possible guard
+#define _STDDEF_H      
+#define __STDDEF_H     
+#define _STDDEF_H_     
 
 //---------------------------------------------------------------
 // Kernel Headers
 //---------------------------------------------------------------
-#include <linux/kernel.h>     // For printk, KERN_ERR, etc.
-#include <linux/module.h>     // For module macros
-#include <linux/types.h>      // For kernel-specific types
-#include <linux/slab.h>       // For kmalloc, kfree, etc.
-#include <linux/string.h>     // For memcpy, memset, etc.
-#include <linux/errno.h>      // For error codes
-#include <linux/bug.h>        // For BUG() macro
-#include <asm/byteorder.h>    // For byte order macros
+#include <linux/kernel.h>     
+#include <linux/module.h>     
+#include <linux/types.h>      
+#include <linux/slab.h>       
+#include <linux/string.h>     
+#include <linux/errno.h>      
+#include <linux/bug.h>        
+#include <asm/byteorder.h>    
 
 //---------------------------------------------------------------
 // Standard Type Definitions
 //---------------------------------------------------------------
-// Define standard types using kernel types
 typedef __u8    uint8_t;
 typedef __s8    int8_t;
 typedef __u16   uint16_t;
@@ -54,19 +53,17 @@ typedef int32_t     i32;
 typedef uint64_t    u64;
 typedef int64_t     i64;
 
-// Additional types from stddef.h
 #ifndef NULL
 #define NULL ((void*)0)
 #endif
 
 typedef __kernel_size_t size_t;
 typedef __kernel_ssize_t ssize_t;
-typedef long ptrdiff_t;  // Adjust as appropriate for your system
+typedef long ptrdiff_t;  
 
 typedef float       f32;
 typedef double      f64;
 
-// Define boolean type
 #ifndef __cplusplus
 typedef _Bool       bool;
 #define true        1
@@ -76,24 +73,18 @@ typedef _Bool       bool;
 //---------------------------------------------------------------
 // Macro Definitions
 //---------------------------------------------------------------
-
-// Define likely and unlikely macros
 #ifndef likely
 #define likely(x)       __builtin_expect(!!(x), 1)
 #endif
 #ifndef unlikely
 #define unlikely(x)     __builtin_expect(!!(x), 0)
 #endif
-
-// Define min and max macros
 #ifndef min
 #define min(a, b)       ((a) < (b) ? (a) : (b))
 #endif
 #ifndef max
 #define max(a, b)       ((a) > (b) ? (a) : (b))
 #endif
-
-// Define logical operator macros
 #define and     &&
 #define or      ||
 #define not     !
@@ -102,27 +93,20 @@ typedef _Bool       bool;
 // Function Replacements
 //---------------------------------------------------------------
 
-// Replace standard memory functions with kernel equivalents
 #define malloc(size)            kmalloc(size, GFP_KERNEL)
 #define calloc(nmemb, size)     kcalloc(nmemb, size, GFP_KERNEL)
 #define realloc(ptr, size)      krealloc(ptr, size, GFP_KERNEL)
 #define free(ptr)               kfree(ptr)
-
-// Replace standard I/O functions
 #define printf                  printk
 #define fprintf(stream, fmt, ...)   printk(fmt, ##__VA_ARGS__)
 #define sprintf(buf, fmt, ...)      snprintf(buf, sizeof(buf), fmt, ##__VA_ARGS__)
 #define snprintf                 snprintf
 #define vsnprintf                vsnprintf
-
-// Replace assert with kernel BUG_ON
 #define assert(expr)            BUG_ON(!(expr))
 
 //---------------------------------------------------------------
 // Error Handling
 //---------------------------------------------------------------
-
-// Define error codes
 typedef const char* M3Result;
 
 #define m3Err_none                      ((M3Result)NULL)
@@ -139,29 +123,21 @@ typedef const char*    cstr_t;
 typedef u8             m3opcode_t;
 typedef u8             M3ValueType;
 
-// Forward declarations of structures
 struct M3Module;
 struct M3Memory;
 struct M3Environment;
 struct M3Runtime;
 struct M3Function;
 struct M3Global;
-struct M3MemoryHeader;  // This structure should be defined elsewhere
-
-// Define pointer types
 typedef struct M3Module*        IM3Module;
 typedef struct M3Runtime*       IM3Runtime;
 typedef struct M3Environment*   IM3Environment;
 typedef struct M3Function*      IM3Function;
 typedef struct M3Global*        IM3Global;
-
-// Define m3ret_t and m3slot_t
 typedef const void*     m3ret_t;
 typedef u64             m3slot_t;
 typedef s64             m3reg_t;
 typedef m3slot_t*       m3stack_t;
-
-// Define pc_t
 typedef const void*     code_t;
 typedef code_t          pc_t;
 
@@ -183,7 +159,6 @@ typedef code_t          pc_t;
 #define m3_bswap32(x)           __builtin_bswap32(x)
 #define m3_bswap64(x)           __builtin_bswap64(x)
 
-// For big-endian systems, define byte swap macros
 #ifdef __BIG_ENDIAN
 #define M3_BSWAP_u16(x)         m3_bswap16(x)
 #define M3_BSWAP_u32(x)         m3_bswap32(x)
@@ -216,12 +191,6 @@ typedef code_t          pc_t;
 #define m3_log_debug(fmt, ...)      printk(KERN_DEBUG "WASM3 Debug: " fmt, ##__VA_ARGS__)
 
 //---------------------------------------------------------------
-// Additional Definitions
-//---------------------------------------------------------------
-
-// Since va_list, va_start, va_end are already defined in kernel headers, no need to redefine them
-
-//---------------------------------------------------------------
 // Error Handling Functions
 //---------------------------------------------------------------
 
@@ -236,7 +205,6 @@ static inline void m3_abort(const char* message)
 //---------------------------------------------------------------
 
 typedef m3ret_t (*IM3Operation)(pc_t _pc, m3stack_t _sp, struct M3MemoryHeader* _mem, m3reg_t _r0);
-
 typedef M3Result (*M3RawCall)(IM3Runtime runtime, struct M3ImportContext* _ctx, uint64_t* _sp, void* _mem);
 
 //---------------------------------------------------------------
